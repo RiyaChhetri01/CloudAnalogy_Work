@@ -1,0 +1,93 @@
+<template>
+    <lightning-card title="Filters" icon-name="utility:filterList">
+
+        <div class="slds-p-around_medium">
+
+       
+            <template if:true={appliedFilters.length}>
+
+                <div class="slds-box slds-theme_default slds-m-bottom_medium">
+
+                    <div class="slds-grid slds-grid_align-spread slds-m-bottom_x-small">
+                        <div class="slds-text-title_bold">Applied Filters</div>
+
+                        <lightning-button label="Clear All"  variant="base" onclick={handleClearAll}>
+                        </lightning-button>
+                    </div>
+
+                    <div class="slds-grid slds-wrap">
+
+                        <template for:each={appliedFilters} for:item="f" for:index="index">
+
+                            <div key={f.id} class="slds-m-right_small slds-m-bottom_x-small">
+
+                                <span class="slds-badge">
+
+                                    {f.selectedField} {f.selectedOperator} {f.selectedValue}
+
+                                    <lightning-button-icon icon-name="utility:close"  size="x-small" class="slds-m-left_x-small"
+                                        data-index={index}  onclick={handleRemoveApplied}> </lightning-button-icon>
+                                     
+                                    
+
+
+                                </span>
+
+                            </div>
+
+                        </template>
+
+                    </div>
+
+                </div>
+
+            </template>
+
+            
+            <template for:each={filterRows} for:item="f">
+                <div key={f.id} class="slds-box slds-m-bottom_small">
+
+                    <div class="slds-text-align_right">
+                        <lightning-button-icon  icon-name="utility:close"  data-id={f.id}  onclick={handleRemoveRow}>
+                        </lightning-button-icon>
+                    </div>
+
+                    <lightning-combobox   label="Field" name="selectedField"  value={f.selectedField} options={fieldOptions}  data-id={f.id}
+                        onchange={handleRowChange}>
+                    </lightning-combobox>
+
+                    <lightning-combobox label="Operator"   name="selectedOperator" value={f.selectedOperator} options={f.operatorOptions}
+                        disabled={f.isOperatorDisabled} data-id={f.id} onchange={handleRowChange}>
+                    </lightning-combobox>
+
+                    <template if:true={f.isPicklist}>
+                        <lightning-combobox  label="Value"  name="selectedValue" value={f.selectedValue} options={f.picklistOptions}
+                            data-id={f.id}  onchange={handleRowChange}> </lightning-combobox>
+                    </template>
+
+                    <template if:false={f.isPicklist}>
+                        <lightning-input label="Value" name="selectedValue" value={f.selectedValue}  data-id={f.id}  onchange={handleRowChange}>
+                        </lightning-input>
+                    </template>
+
+                </div>
+            </template>
+
+            
+            <lightning-button
+                label="Add Filter"
+                onclick={handleAddFilter}>
+            </lightning-button>
+
+            <template if:true={showSaveButton}>
+                <lightning-button
+                    label="Apply Filters"
+                    variant="brand"
+                    onclick={handleClickSave}>
+                </lightning-button>
+            </template>
+
+        </div>
+
+    </lightning-card>
+</template>
