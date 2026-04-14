@@ -1,0 +1,89 @@
+<template>
+
+    <div class="slds-p-around_medium slds-grid slds-grid_vertical" style="height:100%; min-height:400px;">
+
+      
+        <div class="slds-grid slds-border_bottom slds-p-vertical_small slds-text-title_bold">
+            <div class="slds-col slds-size_2-of-12">Name</div>
+            <div class="slds-col slds-size_2-of-12">Stage</div>
+            <div class="slds-col slds-size_2-of-12">Amount</div>
+            <div class="slds-col slds-size_3-of-12">Account</div>
+            <div class="slds-col slds-size_2-of-12 slds-text-align_right">Action</div>
+        </div>
+
+        <div class="slds-grow" style="overflow:auto;">
+
+            <template for:each={displayData} for:item="opp">
+                <div key={opp.Id} class="slds-grid slds-border_bottom slds-p-vertical_small">
+
+                    <template if:false={opp.isEdit}>
+
+                        <div class="slds-col slds-size_2-of-12">{opp.Name}</div>
+                        <div class="slds-col slds-size_2-of-12">{opp.StageName}</div>
+                        <div class="slds-col slds-size_2-of-12">{opp.Amount}</div>
+
+                        
+                        <div class="slds-col slds-size_3-of-12">
+                            <span class="slds-text-link"
+                                  data-id={opp.AccountId}
+                                  onclick={handleNavigateToAccount}>
+                                {opp.accountName}
+                            </span>
+                        </div>
+
+                        <div class="slds-col slds-size_2-of-12 slds-text-align_right">
+                            <lightning-button-menu  data-id={opp.Id}  onselect={handleAction}>
+                                <lightning-menu-item value="edit" label="Edit"></lightning-menu-item>
+                                <lightning-menu-item value="delete" label="Delete"></lightning-menu-item>
+                            </lightning-button-menu>
+                        </div>
+
+                    </template>
+
+                    <template if:true={opp.isEdit}>
+
+                        <lightning-record-edit-form object-api-name="Opportunity" record-id={opp.Id} onsuccess={handleSuccess}
+                            onerror={handleError} data-id={opp.Id} class="slds-size_1-of-1">
+
+                            <div class="slds-grid slds-wrap">
+
+                                <div class="slds-col slds-size_2-of-12">
+                                    <lightning-input-field field-name="Name" variant="label-hidden"></lightning-input-field>
+                                </div>
+
+                                <div class="slds-col slds-size_2-of-12">
+                                    <lightning-input-field field-name="StageName" variant="label-hidden"></lightning-input-field>
+                                </div>
+
+                                <div class="slds-col slds-size_2-of-12">
+                                    <lightning-input-field field-name="Amount" variant="label-hidden"></lightning-input-field>
+                                </div>
+
+                                <div class="slds-col slds-size_3-of-12">
+                                    <lightning-input-field field-name="AccountId" variant="label-hidden"></lightning-input-field>
+                                </div>
+
+                                <div class="slds-col slds-size_2-of-12 slds-text-align_right">
+
+                                    <lightning-button type="submit"  label="Save"  variant="brand" class="slds-m-right_xx-small">
+                                    </lightning-button>
+
+                                    <lightning-button  label="Cancel" data-id={opp.Id}  onclick={handleCancel}>
+                                    </lightning-button>
+
+                                </div>
+
+                            </div>
+
+                        </lightning-record-edit-form>
+
+                    </template>
+
+                </div>
+            </template>
+
+        </div>
+
+    </div>
+
+</template>
