@@ -1,0 +1,56 @@
+<template>
+    <div class="slds-p-around_medium">
+
+
+        <lightning-button  label="Toggle Filters"  variant="brand" onclick={handleClickToggle}  class="slds-m-bottom_medium">
+        </lightning-button>
+
+        <div class="slds-grid slds-gutters">
+
+       
+            <template if:true={showFilters}>
+                <div class="slds-col slds-size_4-of-12">
+                    <c-filter-created onfilterselection={handleFilterChange}></c-filter-created>
+                </div>
+            </template>
+
+            
+            <div class="slds-col slds-grow">
+
+                <lightning-card title="Opportunity Management">
+
+                 
+                    <div class="slds-p-horizontal_medium">
+                     <lightning-input type="search"   label="Search Opportunities"  placeholder="Search here"  onchange={handleSearch} class="slds-m-bottom_small">
+                        </lightning-input>
+                    </div>
+
+                  
+                    <c-filter-show-data display-data={paginatedData}  onrowaction={handleAction} onsavesuccess={handleSaveSuccess}
+                        oncancel={handleCancel}>  </c-filter-show-data>
+
+            
+                    <div class="slds-align_absolute-center slds-m-top_medium">
+                        <lightning-button  label="Previous"  onclick={handlePrevious} 
+                            disabled={isPreviousDisabled}>
+                        </lightning-button>
+
+                        <span class="slds-m-horizontal_medium">
+                            Page {currentPage} of {totalPages}
+                        </span>
+
+                        <lightning-button 
+                            label="Next" 
+                            onclick={handleNext} 
+                            disabled={isNextDisabled}>
+                        </lightning-button>
+                    </div>
+
+                </lightning-card>
+
+            </div>
+
+        </div>
+
+    </div>
+</template>
